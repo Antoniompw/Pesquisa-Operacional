@@ -30,6 +30,8 @@ int main(){
         linestream >> val1 >> val2 >> val3;
         mat[val1][val2] = 1;
         mat[val2][val1] = 1;
+        mat[val1][val1] = 1;
+        mat[val2][val2] = 1;
     }
     
     for(int i = 0; i<size; i++){

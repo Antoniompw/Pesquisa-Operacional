@@ -42,8 +42,8 @@ SampleDecoder::~SampleDecoder() { }
 // Runs in O(n \log n):
 double SampleDecoder::decode(const std::vector< double >& chromosome) const {
 	double myFitness = 0.0;
-	int fitness_nao_muda = 0;
-	int counter = 0;
+	double negative_points = 0.0;
+	double counter = 0.0;
 
 	typedef std::pair< double, unsigned > ValueKeyPair;
 	std::vector< ValueKeyPair > rank(chromosome.size());
@@ -88,7 +88,7 @@ double SampleDecoder::decode(const std::vector< double >& chromosome) const {
 		for(int j = i; j < size; j++) {
 			if(chromosome[i] > 0.5 && chromosome[j] > 0.5){
 				if(mat[i][j] == 0){
-					fitness_nao_muda = 1;
+					negative_points++;
 				}
 			}
 		}
@@ -108,17 +108,18 @@ double SampleDecoder::decode(const std::vector< double >& chromosome) const {
 	for(std::vector< ValueKeyPair >::const_iterator i = rank.begin(); i != rank.end(); ++i) {
 		permutation.push_back(i->second);
 	}
-	// Se não for clique
-	if(fitness_nao_muda){
-		myFitness = 0.0;
-	} else {
-		myFitness = counter;
-	}
 	for(int i = 0; i<size; i++){
 		delete mat[i];
 	}
 	delete mat;
 
-	// Return the fitness:
-	return 1/myFitness;
+	// Se não for clique
+	if(negative_points > 0){
+		myFitness = negative_points;
+	}
+	else{
+		myFitness = 1/counter;
+	}
+
+	return myFitness;
 }

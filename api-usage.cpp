@@ -46,7 +46,7 @@ int main() {
 	int size = 283;
 
 	const unsigned n = size;		// size of chromosomes
-	const unsigned p = 100;		// size of population
+	const unsigned p = 200;		// size of population
 	const double pe = 0.10;		// fraction of population to be the elite-set
 	const double pm = 0.10;		// fraction of population to be replaced by mutants
 	const double rhoe = 0.70;	// probability that offspring inherit an allele from elite parent
@@ -64,7 +64,7 @@ int main() {
 	unsigned generation = 0;		// current generation
 	const unsigned X_INTVL = 100;	// exchange best individuals at every 100 generations
 	const unsigned X_NUMBER = 2;	// exchange top 2 best
-	const unsigned MAX_GENS = 1000;	// run for 1000 gens
+	const unsigned MAX_GENS = 2000;	// run for 1000 gens
 	std::cout << "Running for " << MAX_GENS << " generations..." << std::endl;
 	do {
 		algorithm.evolve();	// evolve the population for one generation
@@ -81,7 +81,7 @@ int main() {
 		std::cout << "Population #" << i << ":" << std::endl;
 		for(unsigned j = 0; j < bound; ++j) {
 			std::cout << "\t" << j << ") "
-					<< algorithm.getPopulation(i).getFitness(j) << std::endl;
+					<< algorithm.getPopulation(i).getFitness(j)<< std::endl;
 		}
 	}
 	
