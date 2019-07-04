@@ -34,65 +34,33 @@
  */
 
 #include "SampleDecoder.h"
-
+#include "instancia.h"
 SampleDecoder::SampleDecoder() { }
 
 SampleDecoder::~SampleDecoder() { }
-
 // Runs in O(n \log n):
 double SampleDecoder::decode(const std::vector< double >& chromosome) const {
 	double myFitness = 0.0;
 	double negative_points = 0.0;
 	double counter = 0.0;
+	int size = chromosome.size();
 
 	typedef std::pair< double, unsigned > ValueKeyPair;
 	std::vector< ValueKeyPair > rank(chromosome.size());
 	
-
-	// Carregando a matriz
-	int size = chromosome.size();
-	// Cria uma matriz vazia com 48 de largura x altura
-  int** mat = new int*[size];
-  for(int i = 0; i<size; i++){
-      mat[i] = new int[size];
-  }
-  for(int i = 0; i<size; i++){
-      for(int j = 0; j<size; j++){
-          mat[i][j] = 0;
-
-      }
-  }
-
-  std::ifstream file("data/1-FullIns_5.txt");
-  std::string   line;
-  std::getline(file, line);
-
-  while(std::getline(file, line))
-  {
-      std::stringstream   linestream(line);
-      std::string         data;
-      int                 val1;
-      int                 val2;
-      int                 val3;
-      std::getline(linestream, data, ' ');
-      linestream >> val1 >> val2 >> val3;
-      mat[val1][val2] = 1;
-      mat[val2][val1] = 1;
-      mat[val1][val1] = 1;
-      mat[val2][val2] = 1;
-  }
+	
   
-	for(int i = 0; i < size; i++) {
+	for(int i = 0; i < size; i++){
 		rank[i] = ValueKeyPair(chromosome[i], i);
-		//myFitness += (double(i + 1) * chromosome[i]);
-		for(int j = i; j < size; j++) {
-			if(chromosome[i] > 0.5 && chromosome[j] > 0.5){
-				if(mat[i][j] == 0){
-					negative_points++;
+		
+		if(chromosome[i] > 0.5){	//Executa a busca apenas se for incluído na Click
+			for(int j=i; j<size; j++){
+				if(chromosome[j] > 0.5){
+					if(mat[i][j] == 0){
+						negative_points++;
+					}
 				}
 			}
-		}
-		if(chromosome[i] > 0.5){
 			counter++;
 		}
 	}
@@ -108,10 +76,6 @@ double SampleDecoder::decode(const std::vector< double >& chromosome) const {
 	for(std::vector< ValueKeyPair >::const_iterator i = rank.begin(); i != rank.end(); ++i) {
 		permutation.push_back(i->second);
 	}
-	for(int i = 0; i<size; i++){
-		delete mat[i];
-	}
-	delete mat;
 
 	// Se não for clique
 	if(negative_points > 0){

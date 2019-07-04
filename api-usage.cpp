@@ -43,7 +43,7 @@
 int main() {
 	std::cout << "Finding maximum clique" << std::endl;
 	
-	int size = 283;
+	int size = 946;
 
 	const unsigned n = size;		// size of chromosomes
 	const unsigned p = 200;		// size of population
@@ -64,7 +64,7 @@ int main() {
 	unsigned generation = 0;		// current generation
 	const unsigned X_INTVL = 100;	// exchange best individuals at every 100 generations
 	const unsigned X_NUMBER = 2;	// exchange top 2 best
-	const unsigned MAX_GENS = 2000;	// run for 1000 gens
+	const unsigned MAX_GENS = 10000;	// run for 1000 gens
 	std::cout << "Running for " << MAX_GENS << " generations..." << std::endl;
 	do {
 		algorithm.evolve();	// evolve the population for one generation
